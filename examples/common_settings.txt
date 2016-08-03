@@ -1,7 +1,12 @@
 # Add include directory
 include_directories(.)
-include_directories(../../src)
+
+set (INCLUDE_FOLDER "${PROJECT_SOURCE_DIR}/include")
+
+include_directories(${INCLUDE_FOLDER})
 include_directories(${metasim_INCLUDE_DIRS})
+
+message("Including folder: ${INCLUDE_FOLDER}")
 
 # Environment-based settings.
 if(APPLE)

@@ -1,6 +1,6 @@
 # Include dirs.
 include_directories(.)
-include_directories(../src)
+include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories(${metasim_INCLUDE_DIRS})
 
 # Environment-based settings.
