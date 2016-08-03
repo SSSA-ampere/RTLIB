@@ -7,4 +7,4 @@ add_executable(sprunt_example1 sprunt_example1.cpp)
 
 # Indicate that the executable needs metasim and rtlib library.
 target_link_libraries( spsl rtlib )
-target_link_libraries( sprunt_example1 rtlib ${metasim_LIBRARY} )
+target_link_libraries( sprunt_example1 rtlib ${METASIM_LIB} )

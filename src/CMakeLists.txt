@@ -1,7 +1,7 @@
 # Include dirs.
 include_directories(.)
 include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories(${metasim_INCLUDE_DIRS})
+include_directories(${METASIM_INCLUDE_DIRS})
 
 # Environment-based settings.
 if(APPLE)
@@ -41,4 +41,4 @@ add_library(rtlib ${LIB_TYPE} capacitytimer.cpp cbserver.cpp cpu.cpp
   tracepower.cpp waitinstr.cpp instr.cpp suspend_instr.cpp AVRTask.cpp json_trace.cpp)
 
 # Indicate that rtlib need metasim library.
-target_link_libraries( rtlib  ${metasim_LIBRARY} )
+target_link_libraries( rtlib  ${METASIM_LIB} )
