@@ -1,54 +1,46 @@
 cmake_minimum_required (VERSION 3.0)
-project (rtlib)
 
-# Packages.
+# Project Description
+# ------------------------------
+project(RTLIB)
+
+set(VERSION_MAJOR "1")
+set(VERSION_MINOR "0")
+set(VERSION_PATCH "0")
+set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+
+# Import METASIM Package
+# ------------------------------
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}")
 find_package(METASIM REQUIRED)
 
-message("Trovata METASIM in: ${METASIM_DIR}")
+message("Found METASIM in: ${METASIM_DIR}")
+message("Found METASIM/include in: ${METASIM_INCLUDE_DIR}")
+message("Found METASIM/lib*.so in: ${METASIM_LIB}")
 
-# set metasim include dir
-set(METASIM_INCLUDE_DIRS "${METASIM_DIR}/../include")
 
-message("Trovata METASIM/include in: ${METASIM_INCLUDE_DIRS}")
+# Set environment
+# ------------------------------
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${METASIM_INCLUDE_DIR})
+set(RTLIB_LIB_NAME ${PROJECT_NAME})
+set(RTLIB_LIB ${RTLIB_LIB_NAME}_STATIC)
 
-set(METASIM_LIB_DIR "${METASIM_DIR}/lib")
 
-message("Trovata METASIM/lib in: ${METASIM_LIB_DIR}")
-
-# Environment-based settings.
-if(APPLE)
-	set(LIB_TYPE "SHARED")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")	
-	if(EXISTS "${METASIM_LIB_DIR}/libMETASIM.dylib")
-		set(METASIM_LIB ${CMAKE_LIBRARY_PATH} "${METASIM_LIB_DIR}/libMETASIM.dylib")
-	elseif(EXISTS "${METASIM_LIB_DIR}/Debug/libMETASIM.dylib")
-		set(METASIM_LIB ${CMAKE_LIBRARY_PATH} "${METASIM_LIB_DIR}/Debug/libMETASIM.dylib")
-	elseif(EXISTS "${METASIM_LIB_DIR}/Release/libMETASIM.dylib")
-		set(METASIM_LIB ${CMAKE_LIBRARY_PATH} "${METASIM_LIB_DIR}/Release/libMETASIM.dylib")
-	endif()
-	
-elseif(UNIX)
-	set(LIB_TYPE "SHARED")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")
-	set(METASIM_LIB "${METASIM_LIB_DIR}/libMETASIM.so")
-	
-elseif(WIN32)
-	set(LIB_TYPE "STATIC")
-	if(EXISTS "${METASIM_LIB_DIR}/Debug/METASIM.lib")
-		set(METASIM_LIB "${METASIM_LIB_DIR}/Debug/METASIM.lib")
-	elseif(EXISTS "${METASIM_LIB_DIR}/Release/METASIM.lib")
-		set(METASIM_LIB "${METASIM_LIB_DIR}/Release/METASIM.lib")
-	endif()
+# Environment-dependable settings.
+# ------------------------------
+if(APPLE OR UNIX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++0x")
 endif()
 
 
-message("Trovata METASIM/lib*.so in: ${METASIM_LIB}")
-
-# Include dirs.
-add_subdirectory (src)
-add_subdirectory (examples)
-add_subdirectory (test)
+# Add subdirectories
+# ------------------------------
+add_subdirectory(src)
+add_subdirectory(examples)
+add_subdirectory(test)
 
 # Export.
-export(TARGETS rtlib FILE "./rtlibConfig.cmake")
-export(PACKAGE rtlib)
+#export(TARGETS rtlib FILE "./rtlibConfig.cmake")
+#export(PACKAGE rtlib)

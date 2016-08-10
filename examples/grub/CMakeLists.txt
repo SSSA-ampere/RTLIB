@@ -1,9 +1,7 @@
-# Include Environment-based settings.
-include(${CMAKE_CURRENT_DOURCE_DIR}../common_settings.txt)
+project(GRUB)
 
 # Create the executable.
-add_executable(grub grub.cpp)
+add_executable(${PROJECT_NAME} grub.cpp)
 
 # Indicate that the executable needs metasim and rtlib library.
-target_link_libraries( grub rtlib ${METASIM_LIB} )
-
+target_link_libraries(${PROJECT_NAME} ${RTLIB_LIB} ${METASIM_LIB})

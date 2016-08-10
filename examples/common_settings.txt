@@ -1,7 +1,0 @@
-# Add include directory
-
-set (INCLUDE_FOLDER "${PROJECT_SOURCE_DIR}/include")
-
-include_directories(.)
-include_directories(${INCLUDE_FOLDER})
-include_directories(${METASIM_INCLUDE_DIRS})

@@ -1,8 +1,7 @@
-# Include Environment-based settings.
-include(${CMAKE_CURRENT_DOURCE_DIR}../common_settings.txt)
+project(EDF)
 
 # Create the executable.
-add_executable(edf edf.cpp)
+add_executable(${PROJECT_NAME} edf.cpp)
 
 # Indicate that the executable needs metasim and rtlib library.
-target_link_libraries( edf rtlib ${METASIM_LIB} )
+target_link_libraries(${PROJECT_NAME} ${RTLIB_LIB} ${METASIM_LIB})

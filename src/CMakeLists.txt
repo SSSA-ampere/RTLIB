@@ -1,44 +1,43 @@
-# Include dirs.
-include_directories(.)
-include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories(${METASIM_INCLUDE_DIRS})
+project(${RTLIB_LIB_NAME})
 
-# Environment-based settings.
-if(APPLE)
-	set(LIB_TYPE "SHARED")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")	
-	if(EXISTS "${metasim_DIR}/libmetasim.dylib")
-		set(metasim_LIBRARY ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/libmetasim.dylib")
-	elseif(EXISTS "${metasim_DIR}/Debug/libmetasim.dylib")
-		set(metasim_LIBRARY ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/Debug/libmetasim.dylib")
-	elseif(EXISTS "${metasim_DIR}/Release/libmetasim.dylib")
-		set(metasim_LIBRARY ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/Release/libmetasim.dylib")
-	endif()
+# Define all the source and header files
+# ------------------------------
+set(${PROJECT_NAME}_headers 
+	abskernel.hpp absresmanager.hpp abstask.hpp AVRTask.hpp bwi.hpp capacitytimer.hpp
+	cbserver.hpp cpu.hpp edfsched.hpp exeinstr.hpp fcfsresmanager.hpp feedback.hpp
+	feedbacktest.hpp fifosched.hpp fpsched.hpp grubserver.hpp
+	instr.hpp interrupt.hpp json_trace.hpp jtrace.hpp kernel.hpp kernevt.hpp load.hpp
+	mrtkernel.hpp piresman.hpp pollingserver.hpp reginstr.hpp resmanager.hpp resource.hpp
+	rmsched.hpp rrsched.hpp rtsched.hpp rttask.hpp schedinstr.hpp schedpoints.hpp
+	schedrta.hpp scheduler.hpp server.hpp sparepot.hpp sporadicserver.hpp supercbs.hpp
+	supervisor.hpp suspend_instr.hpp task.hpp taskevt.hpp taskexc.hpp taskstat.hpp
+	texttrace.hpp threinstr.hpp timer.hpp traceevent.hpp tracepower.hpp waitinstr.hpp
+	#feedbackarsim.hpp rtload.hpp
+	)
+set(${PROJECT_NAME}_sources
+	AVRTask.cpp bwi.cpp capacitytimer.cpp cbserver.cpp cpu.cpp edfsched.cpp exeinstr.cpp
+	fcfsresmanager.cpp feedback.cpp feedbacktest.cpp fifosched.cpp
+	fpsched.cpp grubserver.cpp instr.cpp interrupt.cpp json_trace.cpp jtrace.cpp kernel.cpp
+	kernevt.cpp load.cpp mrtkernel.cpp piresman.cpp pollingserver.cpp reginstr.cpp regsched.cpp
+	regtask.cpp resmanager.cpp resource.cpp rmsched.cpp rrsched.cpp rttask.cpp
+	schedinstr.cpp schedpoints.cpp schedrta.cpp scheduler.cpp server.cpp sparepot.cpp 
+	sporadicserver.cpp supercbs.cpp suspend_instr.cpp task.cpp taskevt.cpp texttrace.cpp
+	threinstr.cpp timer.cpp traceevent.cpp tracepower.cpp waitinstr.cpp
+	#feedbackarsim.cpp rtload.cpp
+	)
+
+
+# Create a library called RTLIB which includes the source files
+# ------------------------------
+add_library(${PROJECT_NAME} SHARED
+	${${PROJECT_NAME}_headers}
+	${${PROJECT_NAME}_sources})
 	
-elseif(UNIX)
-	set(LIB_TYPE "SHARED")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")
-	set(metasim_LIBRARY "${metasim_DIR}/libmetasim.so")
+add_library(${PROJECT_NAME}_STATIC STATIC
+	${${PROJECT_NAME}_headers}
+	${${PROJECT_NAME}_sources})
+
 	
-elseif(WIN32)
-	set(LIB_TYPE "STATIC")
-	if(EXISTS "${metasim_DIR}/Debug/metasim.lib")
-		set(metasim_LIBRARY "${metasim_DIR}/Debug/metasim.lib")
-	elseif(EXISTS "${metasim_DIR}/Release/metasim.lib")
-		set(metasim_LIBRARY "${metasim_DIR}/Release/metasim.lib")
-	endif()
-endif()
-
-# Create a library called "rtlib" which includes the source files.
-add_library(rtlib ${LIB_TYPE} capacitytimer.cpp cbserver.cpp cpu.cpp 
-  edfsched.cpp exeinstr.cpp fcfsresmanager.cpp feedback.cpp feedbacktest.cpp 
-  fifosched.cpp fpsched.cpp grubserver.cpp interrupt.cpp jtrace.cpp 
-  kernel.cpp kernevt.cpp load.cpp mrtkernel.cpp piresman.cpp pollingserver.cpp 
-  reginstr.cpp regsched.cpp regtask.cpp resmanager.cpp resource.cpp 
-  rmsched.cpp rrsched.cpp rttask.cpp schedinstr.cpp schedpoints.cpp schedrta.cpp 
-  scheduler.cpp server.cpp sparepot.cpp sporadicserver.cpp supercbs.cpp 
-  task.cpp taskevt.cpp texttrace.cpp threinstr.cpp timer.cpp traceevent.cpp 
-  tracepower.cpp waitinstr.cpp instr.cpp suspend_instr.cpp AVRTask.cpp json_trace.cpp)
-
-# Indicate that rtlib need metasim library.
-target_link_libraries( rtlib  ${METASIM_LIB} )
+# Indicate that rtlib need metasim library
+# ------------------------------
+target_link_libraries(${PROJECT_NAME} ${METASIM_LIB})
