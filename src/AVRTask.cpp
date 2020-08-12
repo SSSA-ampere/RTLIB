@@ -172,7 +172,7 @@ namespace RTSim {
 
 	void AVRTask::activate(int mode, Tick rdl) throw (ModeOutOfIndex)
 	{
-		if (mode >= myInstr.size() || mode < 0)
+		if ((unsigned)mode >= myInstr.size() || mode < 0)
 			throw ModeOutOfIndex("Mode Index out of range");
 		this->BufferedDeadlines.push_back(rdl);
 		this->BufferedModes.push_back(mode);
@@ -183,7 +183,7 @@ namespace RTSim {
 
 	Tick AVRTask::getWCET(int index) const throw (ModeOutOfIndex) {
 
-		if (index >= myInstr.size() || index < 0)
+		if ((unsigned)index >= myInstr.size() || index < 0)
 			throw ModeOutOfIndex("Mode Index out of range");
 		Tick tt = 0;
 		
@@ -234,7 +234,7 @@ namespace RTSim {
 		}
         
 		string n = "";
-		if (5+i < par.size())
+		if ((unsigned)(5+i) < par.size())
 			n = par[5+i];	
 
 		return unique_ptr<AVRTask> (new AVRTask(angPer, angPhase, angDl, instr, omegaPlus, omegaMinus, n));

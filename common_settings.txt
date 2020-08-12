@@ -1,0 +1,41 @@
+# Add include directory
+include_directories(.)
+include_directories(../../src)
+
+# change here the path of METASIM if it is not in the default location
+set(metasim_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../METASIM")
+
+# avoid deprecated warnings
+add_compile_options(-Wno-deprecated -Wno-deprecated-declarations)
+
+# set the includes
+set(metasim_INCLUDE_DIRS "${metasim_DIR}/src")
+include_directories(${metasim_INCLUDE_DIRS})
+
+# Environment-based settings.
+if(APPLE)
+	set(LIB_TYPE "SHARED")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")	
+	if(EXISTS "${metasim_DIR}/libmetasim.dylib")
+		set(metasim_LIBRARIES ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/libmetasim.dylib")
+	elseif(EXISTS "${metasim_DIR}/Debug/libmetasim.dylib")
+		set(metasim_LIBRARIES ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/Debug/libmetasim.dylib")
+	elseif(EXISTS "${metasim_DIR}/Release/libmetasim.dylib")
+		set(metasim_LIBRARIES ${CMAKE_LIBRARY_PATH} "${metasim_DIR}/Release/libmetasim.dylib")
+	endif()
+	
+elseif(UNIX)
+	set(LIB_TYPE "STATIC")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -std=c++0x")
+	set(metasim_LIBRARIES "${metasim_DIR}/build/src/libmetasim.a")
+	
+elseif(WIN32)
+	set(LIB_TYPE "STATIC")
+	if(EXISTS "${metasim_DIR}/Debug/metasim.lib")
+		set(metasim_LIBRARIES "${metasim_DIR}/Debug/metasim.lib")
+	elseif(EXISTS "${metasim_DIR}/Release/metasim.lib")
+		set(metasim_LIBRARIES "${metasim_DIR}/Release/metasim.lib")
+	endif()
+else()
+	message(FATAL_ERROR "OS not supported. The supported OSs are Apple, Unix, and Windows")
+endif()

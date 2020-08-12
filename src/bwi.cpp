@@ -31,7 +31,7 @@ namespace RTSim {
             if (schedulers.find(s) == schedulers.end()) 
                 throw BaseExc("BWI: Can't find server/scheduler correspondence");
 
-            Scheduler *sched = schedulers[s];
+            //Scheduler *sched = schedulers[s];
 
             // remove the task from the server scheduler queue
             s->suspend(t);

@@ -24,8 +24,8 @@ namespace RTSim {
         if (par.size() > 4) q = stoi(par[4]);
         
         // @todo what is a? 
-        bool a = true;
-        if (par.size() > 5 && par[5] == "false") a = false; //!strcmp(par[5].c_str(), "false")) a = false;
+        //bool a = true;
+        //if (par.size() > 5 && par[5] == "false") a = false; //!strcmp(par[5].c_str(), "false")) a = false;
 
         unique_ptr<PeriodicTask> tt(new PeriodicTask(i, d, p, n, q));
         
