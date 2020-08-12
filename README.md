@@ -72,7 +72,6 @@ Follow the instructions at http://www.cmake.org/cmake/help/install.html
 
 The steps to build and install the software are the usual ones:
 
-    cd rtlib.0
     mkdir build
     cd build
     ccmake ..
