@@ -3,7 +3,9 @@ include_directories(.)
 include_directories(../../src)
 
 # change here the path of METASIM if it is not in the default location
-set(metasim_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../METASIM")
+set(metasim_DIR
+  "${CMAKE_CURRENT_SOURCE_DIR}/../METASIM"
+  CACHE STRING "Path to mETASIM source dir")
 
 # avoid deprecated warnings
 add_compile_options(-Wno-deprecated -Wno-deprecated-declarations)
